@@ -3,3 +3,8 @@ Responsible for mailing a given message to a username; processes username to mak
 (Is it like that?) and a file with custom username-email lines.
 
 */ 
+
+class Mailer{
+  Public:
+    Mailer();
+}
