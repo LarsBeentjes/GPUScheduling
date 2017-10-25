@@ -5,6 +5,6 @@ Responsible for mailing a given message to a username; processes username to mak
 */ 
 
 class Mailer{
-  Public:
+  public:
     Mailer();
-}
+};

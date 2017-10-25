@@ -3,8 +3,8 @@ Responsible for interfacing with the GPU.
 
 */
 
-GPUInterface{
-  Public:
+class GPUInterface{
+  public:
     GPUInterface();
-  Private:
-}
+  private:
+};

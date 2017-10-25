@@ -5,7 +5,7 @@
 
 
 class GUI{
-  Public:
+  public:
     GUI();
-  Private:
-}
+  private:
+};
