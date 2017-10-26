@@ -9,5 +9,7 @@ Coordinates all substuff.
 
 int main()
 {
+	GPUInterface MyGPUI;
+	GUI MyGUI;
     return 0;
 }
