@@ -1,0 +1,8 @@
+Eerste zin van standaardmail is het onderwerp.
+Standaardmail mag alleen spaties en newlines hebben. Tab en meerdere spaties wordt een spatie.
+[USERNAME] wordt vervangen door de gebruikersnaam.
+[SERVERNUM] wordt vervangen door de servernumber
+
+custommails houdt custom mails in
+username customemail
+formaat.
