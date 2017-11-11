@@ -85,7 +85,7 @@ class GPUMonitor(threading.Thread):
         return result
 
 
-    def interruptableWait(self):
+    def interruptable_wait(self):
         WAIT_TIME = 10.0  # seconds
 
         self.running_condition.acquire()
@@ -97,7 +97,7 @@ class GPUMonitor(threading.Thread):
 
 
     def run(self):
-        while self.interruptableWait():
+        while self.interruptable_wait():
             result_process = []
             result_gpu = []
 
