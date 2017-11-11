@@ -1,2 +1,4 @@
 *.swp
 tools/cuda_stress/stress
+monitor/__pycache__
+monitor_client/__pycache__
