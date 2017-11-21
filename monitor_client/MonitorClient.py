@@ -58,3 +58,8 @@ class MonitorClient:
     def get_gpu_data(self):
         self.__send_command('GET_GPU_DATA')
         return self.__recv_msg()
+
+    def get_time_data(self):
+        self.__send_command('GET_TIME_DATA')
+        return self.__recv_msg()
+

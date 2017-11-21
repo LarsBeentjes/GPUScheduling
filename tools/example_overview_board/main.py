@@ -2,6 +2,7 @@
 
 import math
 import sys
+import time
 
 sys.path.insert(0, '../../monitor_client')
 from MonitorClient import MonitorClient
@@ -30,6 +31,11 @@ def main():
     SOCKET_ADDR = '/home/s1485873/monitor.socket'
 
     monitor_client = MonitorClient(SOCKET_ADDR)
+
+    print(stertjes('LAST UPDATE'))
+    last_ts = time.localtime(monitor_client.get_time_data()['last'])
+    time_string = time.strftime('%H:%M:%S %d-%m-%Y (hh:mm:ss dd:mm:yyyy localtime)', last_ts)
+    print(time_string)
 
     print(stertjes('CARDS'))
     for gpu in monitor_client.get_gpu_data():

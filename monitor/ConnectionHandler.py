@@ -54,6 +54,11 @@ class ConnectionHandler(threading.Thread):
         self.__send_message(json_str)
 
 
+    def __send_time_data(self):
+        pdata = self.gpu_monitor.get_time_data()
+        json_str = json.dumps(pdata)
+        self.__send_message(json_str)
+
     def run(self):
         logging.info('New connection opened id: ' + str(self.ident))
 
@@ -67,6 +72,8 @@ class ConnectionHandler(threading.Thread):
                 self.__send_process_data()
             elif command == 'GET_GPU_DATA':
                 self.__send_gpu_data()
+            elif command == 'GET_TIME_DATA':
+                self.__send_time_data()
             else:
                 logging.warning('Invalid cmd received')
                 break
