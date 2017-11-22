@@ -63,49 +63,39 @@ def processstandardmail(text):
 #Als die username er in staat.
 #Anders, doet @umail.leidenuniv.nl er bij en stuurt dat.
 def processusername(username):
-	m = open('custommails', 'rb')
-	for line in m:
-		helptext = line.split()
-		if(len(helptext) < 2):
-			break
-		if username == helptext[0]:
-			return helptext[1]
-	m.close()
+	try:
+		with open('custommails', 'rb') as m:
+			for line in m:
+				helptext = line.split()
+				if(len(helptext) < 2):
+					break
+				if username == helptext[0]:
+					return helptext[1]
+	except IOError:
+		print 'custommails does not exist. Creating empty custommails file.'
+		f = open('custommails', 'w+')
+		f.close();
 	username += '@umail.leidenuniv.nl'
 	return username
 
 
 #De functie die je aan wil roepen.
-def sendamail(username, servernumber):
+#Mailno selecteerd de standaardmail te gebruiken.
+def sendamail(mailno, username, servernumber):
 	helpthings[0] = username
 	helpthings[1] = servernumber
 	
-	f = open('standaardmail', 'rb')
-
-	toaddr = processusername(username)
-	t = f.readline()
-	mailsubject = processstandardmail(t)
-	mailbody = ''
-	for line in f:
-		mailbody += processstandardmail(line)
-		mailbody += '\n'
-	sendmails(toaddr, mailsubject, mailbody)
-
-	f.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	try:
+		with open('standaardmail' + str(mailno), 'rb') as f:
+			toaddr = processusername(username)
+			t = f.readline()
+			mailsubject = processstandardmail(t)
+			mailbody = ''
+			for line in f:
+				mailbody += processstandardmail(line)
+				mailbody += '\n'
+			sendmails(toaddr, mailsubject, mailbody)
+	except IOError:
+		print 'Requested standard mail does not exist.'
 
 
