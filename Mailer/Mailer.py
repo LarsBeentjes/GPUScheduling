@@ -1,6 +1,5 @@
 import smtplib
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+from email.message import EmailMessage
 
 #Verander om e-mail te veranderen.
 #Noot: Kan alleen met gmail.
@@ -13,7 +12,7 @@ password = "GPUSchedule1"
 #Als je meer replacements wil, 4 stappen:
 #1: doe een extra waarde bij replacements. Bijvoorbeeld '[EXAMPLE]'
 #2: doe een extra waarde bij helpthings. Maakt niet uit, wordt overschreven.
-#3: doe een extra functie argument bij sendamail. Nu, sendamail(username, servernumber, example)
+#3: doe een extra functie argument bij sendamail. Nu, sendamail(mailno, username, servernumber, example)
 #4: extra assignment in sendamail. helpthings[2] (of 3, of 4...)  = example.
 #Done!
 replacements = ['[USERNAME]', '[SERVERNUM]']
@@ -25,12 +24,12 @@ helpthings = ['', '']
 #naar toaddr, met als subject mailsubject, en als content mailbody.
 def sendmails(toaddr, mailsubject, mailbody):
 	
-	msg = MIMEMultipart()
+	msg = EmailMessage()
 	msg['From'] = fromaddr
-	msg['to'] = toaddr
+	msg['To'] = toaddr
 	msg['Subject'] = mailsubject
 
-	msg.attach(MIMEText(mailbody, 'plain'))
+	msg.set_content(mailbody)
 
 	server = smtplib.SMTP('smtp.gmail.com', 587)
 	server.starttls()
@@ -64,7 +63,7 @@ def processstandardmail(text):
 #Anders, doet @umail.leidenuniv.nl er bij en stuurt dat.
 def processusername(username):
 	try:
-		with open('custommails', 'rb') as m:
+		with open('custommails', 'r') as m:
 			for line in m:
 				helptext = line.split()
 				if(len(helptext) < 2):
@@ -72,7 +71,7 @@ def processusername(username):
 				if username == helptext[0]:
 					return helptext[1]
 	except IOError:
-		print 'custommails does not exist. Creating empty custommails file.'
+		print('custommails does not exist. Creating empty custommails file.')
 		f = open('custommails', 'w+')
 		f.close();
 	username += '@umail.leidenuniv.nl'
@@ -85,8 +84,8 @@ def sendamail(mailno, username, servernumber):
 	helpthings[0] = username
 	helpthings[1] = servernumber
 	
-	try:
-		with open('standaardmail' + str(mailno), 'rb') as f:
+	try: #Necessary even with 'with open', if the standard mail does not exist.
+		with open('standaardmail' + str(mailno), 'r') as f:
 			toaddr = processusername(username)
 			t = f.readline()
 			mailsubject = processstandardmail(t)
@@ -96,6 +95,9 @@ def sendamail(mailno, username, servernumber):
 				mailbody += '\n'
 			sendmails(toaddr, mailsubject, mailbody)
 	except IOError:
-		print 'Requested standard mail does not exist.'
+		print('Requested standard mail does not exist.')
+
+	
+
 
 
