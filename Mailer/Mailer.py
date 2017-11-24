@@ -21,7 +21,7 @@ password = "GPUSchedule1"
 #Dus tobereplaced[0] wordt replacements[0]
 #Als je meer replacements wil, 4 stappen:
 #1: doe een extra waarde bij tobereplaced. Bijvoorbeeld '[EXAMPLE]'
-#2: doe een extra waarde bij tobereplaced. Maakt niet uit, wordt overschreven.
+#2: doe een extra waarde bij replacements. Maakt niet uit, wordt overschreven.
 #3: doe een extra functie argument bij sendamail. Nu, sendamail(mailno, username, servernumber, example)
 #4: extra assignment in sendamail. replacements[2] (of 3, of 4...)  = example.
 #Done!
