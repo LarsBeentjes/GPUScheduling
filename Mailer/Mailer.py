@@ -2,9 +2,19 @@ import smtplib
 from email.message import EmailMessage
 
 #Verander om e-mail te veranderen.
-#Noot: Kan alleen met gmail.
+inlogname = "SETeam10@gmail.com"
 fromaddr = "SETeam10@gmail.com"
 password = "GPUSchedule1"
+
+
+#Doesn't work on home PC, but fairly certain it should work on leiden PCs, need to test
+#Gets blocked by provider, see http://issc.leidenuniv.nl/ict-voor-studenten/handleidingen/umail.html bij 'opmerking'
+#inlogname = "s1530186"
+#fromaddr = "s1530186@umail.leidenuniv.nl" # - this format should be correct.
+#password = not giving you my password
+
+
+
 
 #Als iets in de standaardmail file iets in replacements is, dan
 #wordt het vervangen door diezelfde positie in helpthings.
@@ -30,13 +40,14 @@ def sendmails(toaddr, mailsubject, mailbody):
 	msg['Subject'] = mailsubject
 
 	msg.set_content(mailbody)
-
-	server = smtplib.SMTP('smtp.gmail.com', 587)
-	server.starttls()
-	server.login(fromaddr, password)
-	text = msg.as_string()
-	server.sendmail(fromaddr, toaddr, text)
-	server.quit
+	
+	#Verander naar de leidenuniv smtp zodra we een officiele account hebben.
+	#with smtplib.SMTP('smtp.leidenuniv.nl', 25) as server:
+	with smtplib.SMTP('smtp.gmail.com', 587) as server:
+		server.starttls()
+		server.login(inlogname, password)
+		text = msg.as_string()
+		server.sendmail(fromaddr, toaddr, text)
 
 
 #Gaat door de standaardmail en vervangt de replacements met de helpthings.
@@ -70,7 +81,8 @@ def processusername(username):
 					break
 				if username == helptext[0]:
 					return helptext[1]
-	except IOError:
+	except IOError as e:
+		print(e)
 		print('custommails does not exist. Creating empty custommails file.')
 		f = open('custommails', 'w+')
 		f.close();
@@ -94,10 +106,10 @@ def sendamail(mailno, username, servernumber):
 				mailbody += processstandardmail(line)
 				mailbody += '\n'
 			sendmails(toaddr, mailsubject, mailbody)
-	except IOError:
-		print('Requested standard mail does not exist.')
+	except IOError as e:
+		print(e)
 
 	
-
+sendamail(2, 's1111111', 3)
 
 
