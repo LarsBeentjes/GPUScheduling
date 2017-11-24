@@ -23,8 +23,9 @@ def main(stdscr):
         stdscr.clear()
         stdscr.addstr('This is the GPU overview board\n\n')
         for proc in monitor_client.get_process_data():
-            stdscr.addstr('user: {}\nfull name: {}\nproccess name: {}\nprocess time: {}\n\n'.format(proc['username'], proc['fullname'], 
-            proc['process_name'], int(time.time())-int(proc['proc_birth'])))
+            stdscr.addstr('user: {}\nfull name: {}\nproccess name: {}\nprocess time: {}\n\n'.format(proc['username'],
+                proc['fullname'], proc['process_name'],
+                time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(float(proc['proc_birth'])))))
             #De tijd is nog een beetje van slag omdat De Jonckheere daar lugubere dingen mee heeft gedaan
             #De tijd is getraumatiseerd zou je kunnen zeggen
         stdscr.refresh()
@@ -35,6 +36,8 @@ if __name__ == '__main__':
     scr = curses.initscr()
     try:
         main(scr)
+    except KeyboardInterrupt:
+        pass
     finally:
         curses.endwin()
 
