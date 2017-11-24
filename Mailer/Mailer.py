@@ -16,17 +16,17 @@ password = "GPUSchedule1"
 
 
 
-#Als iets in de standaardmail file iets in replacements is, dan
-#wordt het vervangen door diezelfde positie in helpthings.
-#Dus replacements[0] wordt helpthings[0]
+#Als iets in de standaardmail file iets in tobereplaced is, dan
+#wordt het vervangen door diezelfde positie in replacementss.
+#Dus tobereplaced[0] wordt replacements[0]
 #Als je meer replacements wil, 4 stappen:
-#1: doe een extra waarde bij replacements. Bijvoorbeeld '[EXAMPLE]'
-#2: doe een extra waarde bij helpthings. Maakt niet uit, wordt overschreven.
+#1: doe een extra waarde bij tobereplaced. Bijvoorbeeld '[EXAMPLE]'
+#2: doe een extra waarde bij tobereplaced. Maakt niet uit, wordt overschreven.
 #3: doe een extra functie argument bij sendamail. Nu, sendamail(mailno, username, servernumber, example)
-#4: extra assignment in sendamail. helpthings[2] (of 3, of 4...)  = example.
+#4: extra assignment in sendamail. replacements[2] (of 3, of 4...)  = example.
 #Done!
-replacements = ['[USERNAME]', '[SERVERNUM]']
-helpthings = ['', '']
+tobereplaced = ['[USERNAME]', '[SERVERNUM]']
+replacements = ['', '']
 
 
 #Stuurt mail met de gmail 'fromaddr' met wachtwoord 'password'.
@@ -38,35 +38,16 @@ def sendmails(toaddr, mailsubject, mailbody):
 	msg['From'] = fromaddr
 	msg['To'] = toaddr
 	msg['Subject'] = mailsubject
-
-	msg.set_content(mailbody)
+	
+	text = msg.as_string()
+	text += mailbody
 	
 	#Verander naar de leidenuniv smtp zodra we een officiele account hebben.
 	#with smtplib.SMTP('smtp.leidenuniv.nl', 25) as server:
 	with smtplib.SMTP('smtp.gmail.com', 587) as server:
 		server.starttls()
 		server.login(inlogname, password)
-		text = msg.as_string()
 		server.sendmail(fromaddr, toaddr, text)
-
-
-#Gaat door de standaardmail en vervangt de replacements met de helpthings.
-def processstandardmail(text):
-	helptext = ''
-	helpbool = True
-	for word in text.split():
-		helpbool = True
-		i = 0
-		for things in replacements:
-			if word == things:
-				helptext += str(helpthings[i])
-				helpbool = False
-			i += 1
-	
-		if(helpbool):
-			helptext += word
-		helptext += ' '
-	return helptext
 
 
 #Vervangt de username met de custom mail in de custommails file
@@ -93,23 +74,28 @@ def processusername(username):
 #De functie die je aan wil roepen.
 #Mailno selecteerd de standaardmail te gebruiken.
 def sendamail(mailno, username, servernumber):
-	helpthings[0] = username
-	helpthings[1] = servernumber
+	replacements[0] = username
+	replacements[1] = servernumber
 	
 	try: #Necessary even with 'with open', if the standard mail does not exist.
 		with open('standaardmail' + str(mailno), 'r') as f:
 			toaddr = processusername(username)
 			t = f.readline()
-			mailsubject = processstandardmail(t)
+			mailsubject = t
 			mailbody = ''
 			for line in f:
-				mailbody += processstandardmail(line)
+				mailbody += line
 				mailbody += '\n'
+			i = 0
+			for things in tobereplaced:
+				mailsubject = mailsubject.replace(things, str(replacements[i]))
+				mailbody = mailbody.replace(things, str(replacements[i]))
+				i += 1
 			sendmails(toaddr, mailsubject, mailbody)
 	except IOError as e:
 		print(e)
 
 	
-sendamail(2, 's1111111', 3)
+sendamail(2, 's1530186', 3)
 
 
