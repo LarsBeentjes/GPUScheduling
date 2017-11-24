@@ -114,7 +114,6 @@ class GPUMonitor(threading.Thread):
 
 
         with self.lock:
-            logging.debug('New \'schmiie\' is now available')
             self.process_data = result_process
             self.gpu_data = result_gpu
             self.time_data = time.time()
