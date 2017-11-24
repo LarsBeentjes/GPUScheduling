@@ -1,10 +1,18 @@
-import subprocess
-import xml.etree.ElementTree as ET
+import logging
+import os
 import pwd
+import subprocess
 import threading
 import time
-import logging
+import xml.etree.ElementTree as ET
 
+
+def get_boot_time():
+    with open('/proc/stat') as fp:
+        for line in fp:
+            segments = line.split()
+            if segments[0] == 'btime':
+                return float(segments[1])
 
 def get_uid_from_pid(pid):
     filename = '/proc/' + pid + '/status'
@@ -37,7 +45,10 @@ def get_proc_birth(pid):
         segments = segments.split(')')[1]
         segments = segments.lstrip()
         segments = segments.split()
-        return segments[19]  # 22th element, but we cut the first two
+
+        birth = float(segments[19])  # 22th element, but we cut the first two
+        birth /= os.sysconf(os.sysconf_names['SC_CLK_TCK'])
+        return str(get_boot_time() + birth)
 
 def parse_process_info(process_info, gpu):
     result = {}
