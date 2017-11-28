@@ -1,0 +1,34 @@
+OK misschien is dit een beetje overbodige info maar ik vond het zelf 
+lastig alles in één keer draaiend te krijgen op duranium, dus hier een korte beschrijving:
+
+Ik weet niet hoe je files download van github via command line dus ik
+heb gewoon alles gedownload en via ftp naar duranium gestuurd.
+
+Vervolgens paste ik de "sock_addr" aan naar een pad naar mijn persoonlijke directory.
+Verder was het nodig om de MonitorClient te vinden, dit deed ik door de PYTHONPATH aan te passen:
+$ export PYTHONPATH=$PYTHONPATH":GPUScheduling-master/monitor_client/"
+tot slot is de default python versie 2.7 en niet 3.x dus is het nodig om op deze manier python te 
+starten:
+$ python3  GPUScheduling-master/gpuviewboard/main.py
+
+dit werkte maar het was wel vrij snel duidelijk dat het niet vanzelfsprekend was dat het werkte.
+de GPUScheduling-master/gpuviewboard/main.py maakt gebruik van s1485873's (wie dat ook is) socket.
+
+Verder vind ik het erg lastig ook maar kleine dingen te begrijpen van wat er gaande is.
+Is het mogelijk om aanwijzingen te geven over hoe je iets op het scherm zou moeten krijgen?
+Of hoe je andersinds met de code om moet gaan? 
+
+Verder over de viewboard, het is niet mijn bedoeling om het werk van anderen af te kraken, 
+ik zou het nog niet in een week kunnen maken, maar ik wil toch wat commentaar toe voegen
+in een poging om met zijn allen een mooi resultaat af te leveren.
+
+Ik vind het cool hoe soepel het start en update, maar ik geloof dat de monitor al wel moet draaien (?).
+Maar er is veel meer info beschikbaar dan dat er nu wordt laten zien en ik heb niet echt het gevoel
+veel inzich te krijgen...
+IPV GPU naam zou het misschien logischer zijn om gpu nummer te laten zien aangezien deze wél uniek is
+in tegenstelling tot naam en ook omdat gebruikers als volgt een GPU gebruiken mbv GPU nummer:
+$ CUDA_VISIBLE_DEVICES=$GPU_NR python3
+
+Verder is het misschien ook prettig om de vrije GPU's te laten zien?
+Tot slot is misschien een nuttige toevoeging om ook GPU gebruik (gpu_util) te laten zien
+zodat processen die feitelijk geen GPU gebruik hebben gedetecteerd kunnen worden...
