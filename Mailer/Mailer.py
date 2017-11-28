@@ -59,7 +59,7 @@ def processusername(username):
 			for line in m:
 				helptext = line.split()
 				if(len(helptext) < 2):
-					break
+					continue
 				if username == helptext[0]:
 					return helptext[1]
 	except IOError as e:
