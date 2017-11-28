@@ -16,6 +16,15 @@ def uptime():
         uptime = float(segments[0])
     return uptime
 
+def hours_minutes_seconds(int):
+    m, s = divmod(int, 60)
+    h, m = divmod(m, 60)
+    d, h = divmod(h, 24)
+    
+    s = "%d %02d:%02d:%02d" % (d, h, m, s)
+    return s
+
+
 def main(stdscr):
     monitor_client = MonitorClient('/home/s1485873/monitor.socket')
 
@@ -23,11 +32,11 @@ def main(stdscr):
         stdscr.clear()
         stdscr.addstr('This is the GPU overview board\n\n')
         for proc in monitor_client.get_process_data():
-            stdscr.addstr('user: {}\nfull name: {}\nproccess name: {}\nprocess time: {}\n\n'.format(proc['username'],
-                proc['fullname'], proc['process_name'],
-                time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(float(proc['proc_birth'])))))
-            #De tijd is nog een beetje van slag omdat De Jonckheere daar lugubere dingen mee heeft gedaan
-            #De tijd is getraumatiseerd zou je kunnen zeggen
+            stdscr.addstr('User: {}\nLogged in: {}\nFull name: {}\nProccess' 
+            'name: {}\nprocess Processing time: {}\nGraphics card: {} \n\n'
+            .format(proc['username'], proc['logged_in'],proc['fullname'], 
+            proc['process_name'], hours_minutes_seconds(int(float(time.time())
+            - float(proc['proc_birth']))), proc['gpu_name']))
         stdscr.refresh()
         time.sleep(1.0)
 
