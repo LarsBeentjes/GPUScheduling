@@ -1,9 +1,18 @@
-This is a test mail, you know?
-Beste [USERNAME]
+DSlab Server Notification
+Dear [FULLNAME],
 
-This is standardmail 2!
-Dit is een test e-mail. Lalalalaala.
-We are testing server number [SERVERNUM]
+We have noticed the execution of a job on the [SERVERNAME] server running for longer than one hour.
+In order to provide access to the Data Science resources for all students, we ask you to limit the claiming of hardware to one hour per session.
+If this is a valid job please ignore this message.
+The process might be an instance of session which is still active. If you are done with a session please make sure the process is killed and does no longer claim hardware resources. This can be done by using the GPU monitor. Find the process id (pid) of any "hanging" job and kill the process.
+For your current process run the command:
+$ kill $pid
+to kill the process.
 
-Met vriendelijke groet,
-Een tester.
+We thank you for your assistence.
+
+This is an automatically generated message.
+For more information about the sender contact:
+SETeam10@gmail.com
+For more information about DSlab see:
+rel.liacs.nl/dslab (only accessible from within the university network)

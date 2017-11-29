@@ -1,8 +1,20 @@
 Eerste zin van standaardmail is het onderwerp.
 Standaardmail mag alleen spaties en newlines hebben. Tab en meerdere spaties wordt een spatie.
-[USERNAME] wordt vervangen door de gebruikersnaam.
-[SERVERNUM] wordt vervangen door de servernumber
+[FULLNAME] wordt vervangen door de gebruikersnaam.
+[SERVERNAME] wordt vervangen door de servernaam
 
 custommails houdt custom mails in
 username customemail
 formaat.
+
+Mail_Controller:
+Controleert of een process meerdere GPUs Claimt (1) of
+Een process al langer dan een uur draait (2)
+en laat de mailer een gepast mailtje verzenden met 
+een notificatie en instructies.
+
+exceptions:
+een file kan worden toegevoegd die usernames bevat
+die niet gemailt hoeven te worden
+
+

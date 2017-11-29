@@ -1,8 +1,21 @@
-This is a test mail, you know?
-Beste [USERNAME]
+DSlab Server Notification
+Dear [FULLNAME],
 
-Dit is een test e-mail. Lalalalaala.
-We are testing server number [SERVERNUM]
+We have noticed the execution of a job on the [SERVERNAME] server claiming multipe GPU devices.
+In order to provide access to the Data Science resources for all students, we ask you to limit the claiming of hardware to one GPU per session.
+Below is a small demo of how this can be done: say you want to run "my_program.py" then the following command will claim only GPU device #5 for your job:
+$ CUDA_VISIBLE_DEVICES=5 python my_program.py
+Use the GPU monitor or the nvidea-smi command to see which devices are available.
 
-Met vriendelijke groet,
-Een tester.
+If you are using [SERVERNAME] within the context of a specific course, we ask you to make sure you have read the instructions on working with the [SERVERNAME] server provided by the instructors.
+
+We thank you for your assistence.
+
+This is an automatically generated message.
+For more information about the sender contact:
+SETeam10@gmail.com
+For more information about DSlab see:
+rel.liacs.nl/dslab (only accessible from within the university network)
+
+
+
