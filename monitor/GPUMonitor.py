@@ -57,6 +57,7 @@ def parse_process_info(process_info, gpu):
     result['process_name'] = process_info.find('process_name').text
     result['used_memory'] = process_info.find('used_memory').text
     result['gpu_id'] = gpu.attrib['id']
+    result['gpu_minor_number'] = gpu.find('minor_number').text
     result['gpu_name'] = gpu.find('product_name').text
     result['uid'] = get_uid_from_pid(result['pid'])
     result['username'], result['fullname'] = get_username_fullname(result['uid'])
@@ -69,6 +70,7 @@ def parse_gpu_info(gpu):
     result = {}
 
     result['id'] = gpu.attrib['id']
+    result['minor_number'] = gpu.find('minor_number').text
     result['name'] = gpu.find('product_name').text
     result['memory_usage'] = gpu.find('fb_memory_usage').find('used').text
     result['memory_total'] = gpu.find('fb_memory_usage').find('total').text

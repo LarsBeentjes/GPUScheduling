@@ -40,7 +40,8 @@ def main():
     print(stertjes('CARDS'))
     for gpu in monitor_client.get_gpu_data():
         output = tabber_de_tab(gpu['name'])
-        output += tabber_de_tab(gpu['id'])
+        #output += tabber_de_tab(gpu['id'])
+        output += tabber_de_tab(gpu['minor_number'])
         output += tabber_de_tab(gpu['gpu_utilization'])
         print(output)
 
@@ -48,6 +49,7 @@ def main():
     for process in monitor_client.get_process_data():
         output = tabber_de_tab(process['fullname'])
         output += tabber_de_tab(process['process_name'])
+        output += tabber_de_tab(process['gpu_minor_number'])
         print(output)
 
     print(stertjes(''))
