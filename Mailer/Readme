@@ -18,3 +18,27 @@ een file kan worden toegevoegd die usernames bevat
 die niet gemailt hoeven te worden
 
 
+
+Rules:
+Format is as follows:
+[GROUP] [TIME] [NUMBER] [INTERVAL] [CUSTOM] [ISSUENO]
+
+Group is a list of student numbers in the 'Groups' file under a 'GROUP X' header.
+The X = [GROUP]
+This is the list of people this rule applies to.
+Alternatively, [GROUP] can be ALL, and in that case it applies to everyone.
+
+[TIME] is a threshold for the amount of time that needs to have passed since the program was created.
+In seconds.
+
+[NUMBER] is the threshold for the number of GPUs the program is using.
+If, for example, 8, then the program needs to use 8 GPUs to violate the rule.
+
+Both [TIME] and [NUMBER] can be set to 0 to be irrelevant, so rules that use only [TIME] or only [NUMBER] as criterion can be created.
+
+[INTERVAL] determines how much time needs to be between violation-emails for violators of this rule.
+
+[CUSTOM] is an easily customizable variable that will be passed to the mailer, also as [CUSTOM].
+It can be used to have one template mail where, for example, only the link to the website is changed.
+
+[ISSUENO] determines which standard mail is sent.
