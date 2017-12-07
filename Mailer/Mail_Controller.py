@@ -78,7 +78,6 @@ def main():
             f = open(OwnPath + 'Rules', 'w+')
             f.close();
             f = open(OwnPath + 'Groups', 'w+')
-            f.write('EMPTYGROUP\n')				#Empty group should always be in it.
             f.close();    
             
         if not violations:
