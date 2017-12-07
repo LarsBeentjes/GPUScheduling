@@ -76,9 +76,9 @@ def main():
                         for proc in data:
                             if((not thisisexcept and (proc['username'] in helptext2)) or (thisisexcept and (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
                                 sec_running = time.time() - float(proc['proc_birth'])											#Or not in the group in case of an EXCEPT.
-                                if((counted[proc['pid']] >= helptext[2]) and (sec_running > helptext[1])):
-                                    violations[proc['pid']] = (helptext[6], proc['username'], proc['fullname'], host, helptext[5])
-                                    intervals[proc['pid']] = helptext[4]
+                                if((counted[proc['pid']] >= int(helptext[3])) and (sec_running > int(helptext[2]))):
+                                    violations[proc['pid']] = (int(helptext[6]), proc['username'], proc['fullname'], host, helptext[5])
+                                    intervals[proc['pid']] = int(helptext[4])
         except IOError as e:
             print(e)
             print('Rules file or Groups file does not exist. Creating empty Rules/Groups file.') #Also split this up?
@@ -103,7 +103,8 @@ def main():
                     if not exception(user): #Is this really necessary with rules as they are?
                         mailer.sendamail(*violations[pid])
                         print(user + " has been notified.")
-                        print("last notification was " + str(last_hours) + " ago.")
+                        if not firstnotification:
+                             print("last notification was " + str(last_seconds/3600) + " hours ago.")
                         notified[user] = time.time()
         
         time.sleep(10.0)
