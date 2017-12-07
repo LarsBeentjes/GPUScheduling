@@ -17,7 +17,7 @@ exceptions:
 een file kan worden toegevoegd die usernames bevat
 die niet gemailt hoeven te worden
 
-
+RuleMaker: Utility for displaying and manipulating the rules, groups and exceptions.
 
 Rules:
 Format is as follows:
