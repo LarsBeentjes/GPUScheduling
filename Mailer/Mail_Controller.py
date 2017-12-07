@@ -13,6 +13,13 @@ OwnPath = sys.path[0] + '/'			#Note change this to be compatible with where the 
 						#So if monitor is where the program is ultimately started.
 						#Then it points to the monitor directory.
 						#And we need to add /../Mailer/
+def is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+    return False
 
 def exception(user):
     try:
@@ -51,7 +58,7 @@ def main():
                     helptext2 = helptext
                     if(len(helptext) < 7):	
                         continue	#Thusly, is not a valid rule.
-                    if(isinstance(helptext[2], int) and isinstance(helptext[3], int) and isinstance(helptext[4], int) and isinstance(helptext[6], int)):
+                    if(is_int(helptext[2]) and is_int(helptext[3]) and is_int(helptext[4]) and is_int(helptext[6])):
                         if(helptext[0] == 'EXCEPT'):
                             thisisexcept = True
                         with open(OwnPath + 'Groups', 'r') as Groupsfile:
@@ -78,6 +85,7 @@ def main():
             f = open(OwnPath + 'Rules', 'w+')
             f.close();
             f = open(OwnPath + 'Groups', 'w+')
+            f.write('EMPTYGROUP\n')				#Empty group should always be in it.
             f.close();    
             
         if not violations:

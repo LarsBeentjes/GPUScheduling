@@ -31,6 +31,7 @@ Group is a list of student numbers in the 'Groups' file under a 'GROUP X' header
 The X = [GROUP]
 This is the list of people this rule applies to.
 EXCEPT EMPTYGROUP can be used to have the rule apply to everyone.
+Note that in case of duplicate groups only the first group will be used.
 
 [TIME] is a threshold for the amount of time that needs to have passed since the program was created.
 In seconds.
