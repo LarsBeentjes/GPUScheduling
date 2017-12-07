@@ -67,7 +67,7 @@ def main():
                         continue #Also checking if a valid rule.
                     if(ruleapplies):
                         for proc in data:
-                            if((not thisisexcept && (proc['username'] in helptext2)) or (thisisexcept && (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
+                            if((not thisisexcept and (proc['username'] in helptext2)) or (thisisexcept and (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
                                 sec_running = time.time() - float(proc['proc_birth'])											#Or not in the group in case of an EXCEPT.
                                 if((counted[proc['pid']] >= helptext[2]) and (sec_running > helptext[1])):
                                     violations[proc['pid']] = (helptext[6], proc['username'], proc['fullname'], host, helptext[5])
