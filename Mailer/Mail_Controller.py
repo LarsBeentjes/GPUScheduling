@@ -36,6 +36,7 @@ def main():
     notified = {}
     while True:
         violations = {}
+        intervals = {}
         pids = set()
         data = monitor_client.get_process_data()
         counted = Counter(data['pid'])			#I'm reasonably sure the monitor client returns a dictionary and that this should work.
@@ -44,58 +45,59 @@ def main():
         try:
             with open(OwnPath + 'Rules', 'r') as Rulesfile:
                 for line in Rulesfile:
-                    bool ruleapplies = False
-                    bool isitall = False
+                    bool ruleapplies = False	#The only time this doesn't happen is if the group is invalid or it's not a valid rule.
+                    bool thisisexcept = False
                     helptext = line.split()
                     helptext2 = helptext
-                    if(len(helptext) < 6):	#Thusly, might be a valid rule.
-                        continue
-                    if(isinstance(helptext[1], int) and isinstance(helptext[2], int) and isinstance(helptext[3], int) and isinstance(helptext[5], int)):
-                        if(helptext[0] == 'ALL'):
-                            isitall = True
-                        else:
-                            with open(OwnPath + 'Groups', 'r') as Groupsfile:
-                                for grouplines in Groupsfile:
-                                    grouphelp = grouplines.split()
-                                    if(grouphelp[0] == helptext[0]): #The group name matches
-                                        ruleapplies = True
-                                        helptext2 = grouphelp
-                                        break
-                                    else:
-                                        continue
+                    if(len(helptext) < 7):	
+                        continue	#Thusly, is not a valid rule.
+                    if(isinstance(helptext[2], int) and isinstance(helptext[3], int) and isinstance(helptext[4], int) and isinstance(helptext[6], int)):
+                        if(helptext[0] == 'EXCEPT'):
+                            thisisexcept = True
+                        with open(OwnPath + 'Groups', 'r') as Groupsfile:
+                            for grouplines in Groupsfile:
+                                grouphelp = grouplines.split()
+                                if(grouphelp[0] == helptext[1]): #The group name matches
+                                    ruleapplies = True
+                                    helptext2 = grouphelp
+                                    break
+                                else:
+                                    continue
                     else:
                         continue #Also checking if a valid rule.
-                    if(ruleapplies or isitall):
+                    if(ruleapplies):
                         for proc in data:
-                            if((proc['username'] in helptext2) or isitall): #Checks if the username is in the group the rule applies to.
-                                sec_running = time.time() - float(proc['proc_birth'])
+                            if((not thisisexcept && (proc['username'] in helptext2)) or (thisisexcept && (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
+                                sec_running = time.time() - float(proc['proc_birth'])											#Or not in the group in case of an EXCEPT.
                                 if((counted[proc['pid']] >= helptext[2]) and (sec_running > helptext[1])):
-                                    violations[proc['pid']] = (helptext[5], proc['username'], proc['fullname'], host, helptext[4])
-                                    #TODO: Do something here to save interval for this proc pid.
+                                    violations[proc['pid']] = (helptext[6], proc['username'], proc['fullname'], host, helptext[5])
+                                    intervals[proc['pid']] = helptext[4]
         except IOError as e:
             print(e)
             print('Rules file or Groups file does not exist. Creating empty Rules/Groups file.') #Also split this up?
             f = open(OwnPath + 'Rules', 'w+')
             f.close();
             f = open(OwnPath + 'Groups', 'w+')
+            f.write('EMPTYGROUP\n')				#Empty group should always be in it.
             f.close();    
             
         if not violations:
             print("There have been no violations")
         else:
             print("violations detected!")
-        for pid in violations:
-            user = violations[pid][1]
-            last_hours = 999
-            if user in notified: 
-                last_hours = (notified[user] - time.time())/3600
-            if last_hours > 24:
-                if not exception(user):
-                    if user == 's1309773': 
+            for pid in violations:
+                user = violations[pid][1]
+                last_seconds = 0
+                firstnotification = True
+                if user in notified: 
+                    last_seconds = (notified[user] - time.time())
+                    firstnotification = False
+                if ((last_seconds > intervals[pid]) or firstnotification): #Note current setup means the user will not be sent multiple mails if they violate multiple rules. Keep?
+                    if not exception(user): #Is this really necessary with rules as they are?
                         mailer.sendamail(*violations[pid])
                         print(user + " has been notified.")
                         print("last notification was " + str(last_hours) + " ago.")
-                    notified[user] = time.time()
+                        notified[user] = time.time()
         
         time.sleep(10.0)
         
