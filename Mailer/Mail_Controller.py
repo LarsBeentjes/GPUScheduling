@@ -87,7 +87,7 @@ def main():
                             if((not thisisexcept and (proc['username'] in helptext2)) or (thisisexcept and (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
                                 sec_running = time.time() - float(proc['proc_birth'])								#Or not in the group in case of an EXCEPT.
                                 idletime = 0 #By default, not idle.
-                                if(idletimes[proc['gpu_id']] != -1):
+                                if(idletimes[proc['gpu_id']] != -1): #If it's not in idletimes at all, something went very wrong somewhere.
                                     idletime = time.time() - idletimes[proc['gpu_id']]
                                 if((counted[proc['pid']] >= int(helptext[3])) and (sec_running >= int(helptext[2])) and (idletime >= int(helptext[4]))):
                                     violations[proc['pid']] = (int(helptext[7]), proc['username'], proc['fullname'], host, helptext[6])
