@@ -13,6 +13,7 @@ OwnPath = sys.path[0] + '/'			#Note change this to be compatible with where the 
 						#So if monitor is where the program is ultimately started.
 						#Then it points to the monitor directory.
 						#And we need to add /../Mailer/
+						#Should work right though.
 def is_int(s):
     try:
         int(s)
@@ -44,11 +45,20 @@ def main():
     while True:
         violations = {}
         intervals = {}
+	idletimes = {}
         pids = set()
         data = monitor_client.get_process_data()
+        gpudata = monitor_client.get_gpu_data()
         counted = Counter(data['pid'])			#I'm reasonably sure the monitor client returns a dictionary and that this should work.
-							#But not entirely certain. Can someone check this?
-							#Here for efficiency.					
+        						#But not entirely certain. Can someone check this?
+        						#Here for efficiency.
+        for gpus in gpudata:
+            if(int(gpus['gpu_utilization']) < 6): #If less than 5% of the GPU is in use, it's idle.
+                if(idletimes[gpus['id']] == -1): #If not previously idle
+                    idletimes[gpus['id']] = time.time() #Is idle from this moment on. Else do nothing.
+            else:
+                idletimes[gpus['id']] = -1 #Not idle.
+        
         try:
             with open(OwnPath + 'Rules', 'r') as Rulesfile:
                 for line in Rulesfile:
@@ -56,9 +66,9 @@ def main():
                     bool thisisexcept = False
                     helptext = line.split()
                     helptext2 = helptext
-                    if(len(helptext) < 7):	
+                    if(len(helptext) < 8):	
                         continue	#Thusly, is not a valid rule.
-                    if(is_int(helptext[2]) and is_int(helptext[3]) and is_int(helptext[4]) and is_int(helptext[6])):
+                    if(is_int(helptext[2]) and is_int(helptext[3]) and is_int(helptext[4]) and is_int(helptext[5]) and is_int(helptext[7])):
                         if(helptext[0] == 'EXCEPT'):
                             thisisexcept = True
                         with open(OwnPath + 'Groups', 'r') as Groupsfile:
@@ -75,9 +85,12 @@ def main():
                     if(ruleapplies):
                         for proc in data:
                             if((not thisisexcept and (proc['username'] in helptext2)) or (thisisexcept and (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
-                                sec_running = time.time() - float(proc['proc_birth'])											#Or not in the group in case of an EXCEPT.
-                                if((counted[proc['pid']] >= int(helptext[3])) and (sec_running > int(helptext[2]))):
-                                    violations[proc['pid']] = (int(helptext[6]), proc['username'], proc['fullname'], host, helptext[5])
+                                sec_running = time.time() - float(proc['proc_birth'])								#Or not in the group in case of an EXCEPT.
+                                idletime = 0 #By default, not idle.
+                                if(idletimes[proc['gpu_id']] != -1):
+                                    idletime = time.time() - idletimes[proc['gpu_id']]
+                                if((counted[proc['pid']] >= int(helptext[3])) and (sec_running >= int(helptext[2])) and (idletime >= int(helptext[4]))):
+                                    violations[proc['pid']] = (int(helptext[7]), proc['username'], proc['fullname'], host, helptext[6])
                                     intervals[proc['pid']] = int(helptext[4])
         except IOError as e:
             print(e)
@@ -97,7 +110,7 @@ def main():
                 last_seconds = 0
                 firstnotification = True
                 if user in notified: 
-                    last_seconds = (notified[user] - time.time())
+                    last_seconds = (time.time() - notified[user]) #Note sure if time.time() works this way...? Should, though.
                     firstnotification = False
                 if ((last_seconds > intervals[pid]) or firstnotification): #Note current setup means the user will not be sent multiple mails if they violate multiple rules. Keep?
                     if not exception(user): #Is this really necessary with rules as they are?
