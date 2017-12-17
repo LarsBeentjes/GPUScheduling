@@ -41,10 +41,10 @@ def CreateThings():
 	if(arg == 'R'):
 		with open(OwnPath + 'Rules', 'a') as Rulesfile:
 			print('Please enter a rule in the format')
-			print('[EXCEPT/INCLUDE] [GROUP] [TIME] [NUMBER] [INTERVAL] [CUSTOM] [ISSUENO]')
+			print('[EXCEPT/INCLUDE] [GROUP] [TIME] [NUMBER] [IDLETIME] [INTERVAL] [CUSTOM] [ISSUENO]')
 			arg = input('--> ')
 			helptext = arg.split()
-			if(is_int(helptext[2]) and is_int(helptext[3]) and is_int(helptext[4]) and is_int(helptext[6])):
+			if(is_int(helptext[2]) and is_int(helptext[3]) and is_int(helptext[4]) and is_int(helptext[5]) and is_int(helptext[7])):
 				Rulesfile.write(arg)
 			else:
 				print('This is not a valid rule. Rule was not added')
