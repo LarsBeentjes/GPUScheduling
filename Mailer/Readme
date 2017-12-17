@@ -21,7 +21,7 @@ RuleMaker: Utility for displaying and manipulating the rules, groups and excepti
 
 Rules:
 Format is as follows:
-[EXCEPT/INCLUDE] [GROUP] [TIME] [NUMBER] [INTERVAL] [CUSTOM] [ISSUENO]
+[EXCEPT/INCLUDE] [GROUP] [TIME] [NUMBER] [IDLETIME] [INTERVAL] [CUSTOM] [ISSUENO]
 
 [EXCEPT/INCLUDE] is written in the rule as EXCEPT or INCLUDE,
 and determines whether the rule is an exclusion-type or an inclusion-type.
@@ -39,8 +39,11 @@ In seconds.
 [NUMBER] is the threshold for the number of GPUs the program is using.
 If, for example, 8, then the program needs to use 8 GPUs to violate the rule.
 
-Both [TIME] and [NUMBER] can be set to 0 to be irrelevant, so rules that use only [TIME] or only [NUMBER] as criterion can be created.
-Note however that they both need to be violated, not just one of them.
+[IDLETIME] is the amount of time the program may idle, in seconds.
+
+[TIME], [NUMBER] and [IDLETIME] can be set to 0 to be effectively irrelevant, 
+so rules that use only [TIME], [NUMBER] or [IDLETIME] as criterion can be created.
+Note however that they all need to be violated, not just one of them.
 
 [INTERVAL] determines how much time needs to be between violation-emails for violators of this rule.
 
