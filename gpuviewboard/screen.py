@@ -41,17 +41,17 @@ def main (self):
 	pad = curses.newpad((len(monitor_client.get_process_data())+10)*7,width)
 	pad_pos = 0;
 	pad.refresh(0,0,5,5,height-5,width-5)
-	for proc in monitor_client.get_process_data():
-		try:
-			for j in range (5,width-5):
-				pad.addstr('-')
-			pad.addstr('\n\n')
-			pad.addstr('User: ' + proc['fullname'] + ' ' + 'Student ID:' +proc['uid']+'\n',curses.color_pair(1))
-			pad.addstr('Process name: ' + proc['process_name'] + ' ' + 'GPU in use: ' + proc['gpu_name']+'\n',curses.color_pair(2))
-			pad.addstr('Elapsed time: '+ 'time: ' + time_epilapsed(int(float(time.time()))-float(proc['proc_birth'])) + '\n\n',curses.color_pair(3))
-		except curses.error:
-			pass
 	while True:
+		for proc in monitor_client.get_process_data():
+			try:
+				for j in range (5,width-5):
+					pad.addstr('-')
+				pad.addstr('\n\n')
+				pad.addstr('User: ' + proc['fullname'] + ' ' + 'Student ID:' +proc['uid']+'\n',curses.color_pair(1))
+				pad.addstr('Process name: ' + proc['process_name'] + ' ' + 'GPU in use: ' + proc['gpu_name']+'\n',curses.color_pair(2))
+				pad.addstr('Elapsed time: '+ 'time: ' + time_epilapsed(int(float(time.time()))-float(proc['proc_birth'])) + '\n\n',curses.color_pair(3))
+			except curses.error:
+				pass
 		key = self.getch()
 		if key == curses.KEY_DOWN:
 			if pad_pos <= ((len(monitor_client.get_process_data())*7)+10)-height :
