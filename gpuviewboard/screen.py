@@ -48,7 +48,7 @@ def main (self):
 			pad.addstr('\n\n')
 			pad.addstr('User: ' + proc['fullname'] + ' ' + 'Student ID:' +proc['uid']+'\n',curses.color_pair(1))
 			pad.addstr('Process name: ' + proc['process_name'] + ' ' + 'GPU in use: ' + proc['gpu_name']+'\n',curses.color_pair(2))
-			pad.addstr('Elapsed time: '+ 'time: ' + (time_epilapsed(int(float(time.time()))-float(proc['proc_birth'])) + '\n\n',curses.color_pair(3)))
+			pad.addstr('Elapsed time: '+ 'time: ' + time_epilapsed(int(float(time.time()))-float(proc['proc_birth'])) + '\n\n',curses.color_pair(3))
 		except curses.error:
 			pass
 	while True:
