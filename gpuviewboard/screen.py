@@ -38,7 +38,7 @@ def main (self):
 	self.addstr(2,textmid(a,width),a + '\n\n')
 	self.addstr(3,textmid(w,width),w + '\n\n')
 
-	pad = curses.newpad((len(monitor_client,get_process_data())+10)*7,width)
+	pad = curses.newpad((len(monitor_client.get_process_data())+10)*7,width)
 	pad_pos = 0;
 	pad.refresh(0,0,5,5,height-5,width-5)
 	for proc in monitor_client.get_process_data():
@@ -54,7 +54,7 @@ def main (self):
 	while True:
 		key = self.getch()
 		if key == curses.KEY_DOWN:
-			if pad_pos <= ((len(monitor_client,get_process_data())*7)+10)-height :
+			if pad_pos <= ((len(monitor_client.get_process_data())*7)+10)-height :
 				pad_pos += 1
 			pad.refresh(pad_pos,0,5,5,(height-5),width-5)
 		elif key == curses.KEY_UP:
