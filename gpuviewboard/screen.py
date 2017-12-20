@@ -3,6 +3,7 @@
 import curses
 import time
 import json
+import sys
 from curses import wrapper
 
 sys.path.insert(0, '../monitor_client')
