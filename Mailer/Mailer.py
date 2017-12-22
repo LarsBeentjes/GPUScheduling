@@ -2,7 +2,7 @@ import smtplib
 import sys
 from email.message import EmailMessage
 
-#Verander om e-mail te veranderen.
+#Verander om e-mail te veranderen. TODO: Read it from a file instead.
 inlogname = "SETeam10@gmail.com"
 fromaddr = "SETeam10@gmail.com"
 password = "GPUSchedule1"
