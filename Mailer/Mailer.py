@@ -2,18 +2,6 @@ import smtplib
 import sys
 from email.message import EmailMessage
 
-#Verander om e-mail te veranderen. TODO: Read it from a file instead.
-inlogname = "SETeam10@gmail.com"
-fromaddr = "SETeam10@gmail.com"
-password = "GPUSchedule1"
-
-
-#Doesn't work on home PC, but fairly certain it should work on leiden PCs, need to test
-#Gets blocked by provider, see http://issc.leidenuniv.nl/ict-voor-studenten/handleidingen/umail.html bij 'opmerking'
-#inlogname = "s1530186"
-#fromaddr = "s1530186@umail.leidenuniv.nl" # - this format should be correct.
-#password = 
-
 
 OwnPath = sys.path[0] + '/'			#Note change this to be compatible with where the program is actually invoked.
 									#Is supposed to point to Mailer directory.
