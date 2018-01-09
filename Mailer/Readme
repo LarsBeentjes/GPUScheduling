@@ -14,7 +14,18 @@ GMAIL/UMAIL - Only these are supported. If UMAIL, use a XXXXXXX@umail.leidenuniv
 inlogname ???@gmail.com/XXXXXXX - for gmail, this needs to be the full gmail. For umail, this needs to be just the XXXXXXX in front of the @
 fromaddr ???@gmail.com/XXXXXXX@umail.leidenuniv.nl - this needs to be the full e-mail address.
 password PASSWORD - simply replace the ALLCAPS PASSWORD with the password.
-Not that inlogname/fromaddr/password need to be in the first position on the line, being used as identifier, and all need to be on separate lines.
+Note that inlogname/fromaddr/password need to be in the first position on the line, being used as identifier, and all need to be on separate lines.
+Examples:
+
+GMAIL
+inlogname SETeam10@gmail.com
+fromaddr SETeam10@gmail.com
+password GPUSchedule1
+
+UMAIL
+inlogname s1530186
+fromaddr s1530186@umail.leidenuniv.nl
+password MYPASSWORD
 
 Mail_Controller:
 Controleert of een process meerdere GPUs Claimt (1) of
