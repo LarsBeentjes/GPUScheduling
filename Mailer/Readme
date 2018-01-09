@@ -1,11 +1,12 @@
-Eerste zin van standaardmail is het onderwerp.
-Standaardmail mag alleen spaties en newlines hebben. Tab en meerdere spaties wordt een spatie.
-[FULLNAME] wordt vervangen door de gebruikersnaam.
-[SERVERNAME] wordt vervangen door de servernaam
+First sentence of standaardmail is the subject.
+Standaardmail may only have spaces and newlines. Tabs and multiple spaces become spaces.
+[FULLNAME] is replaced by username.
+[SERVERNAME] is replaced by the server name.
+[CUSTOM] is replaced by a custom word defined by the rule.
 
-custommails houdt custom mails in
+Custommails saves custom e-mails in
 username customemail
-formaat.
+format.
 
 ownmail:
 This file keeps the username, password and address of the e-mail server to be used by the mailer in it.
@@ -28,14 +29,10 @@ fromaddr s1530186@umail.leidenuniv.nl
 password MYPASSWORD
 
 Mail_Controller:
-Controleert of een process meerdere GPUs Claimt (1) of
-Een process al langer dan een uur draait (2)
-en laat de mailer een gepast mailtje verzenden met 
-een notificatie en instructies.
+Applies the rules to processes, and sends a mail with the mailer when rules are violated.
 
 exceptions:
-een file kan worden toegevoegd die usernames bevat
-die niet gemailt hoeven te worden
+A file full of usernames that are excepted from all rules.
 
 RuleMaker: Utility for displaying and manipulating the rules, groups and exceptions.
 
