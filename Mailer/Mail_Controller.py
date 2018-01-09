@@ -37,7 +37,7 @@ def exception(user):
     return False
 
 def main():
-    monitor_client = MonitorClient('/home/s1485873/monitor.socket')	#Probably also needs to be changed, but not sure how.
+    monitor_client = MonitorClient('/tmp/monitor.socket')	#Probably also needs to be changed, but not sure how.
     mailer = Mailer()
     host = socket.gethostname().split('.',1)[0]
     
