@@ -39,25 +39,43 @@ class Mailer:
         pass
     
     #Stuurt mail met de gmail 'fromaddr' met wachtwoord 'password'.
-    #Die zijn global voor makkelijke aanpassing.
+    #Zoals in de 'ownmail' file.
     #naar toaddr, met als subject mailsubject, en als content mailbody.
     def sendmails(self, toaddr, mailsubject, mailbody):
-        
-        msg = EmailMessage()
-        msg['From'] = fromaddr
-        msg['To'] = toaddr
-        msg['Subject'] = mailsubject
-        
-        text = msg.as_string()
-        text += mailbody
+        with open(OwnPath + 'ownmail', 'r') as mail:
+		specification = ''
+		inlogname = ''
+		fromaddr = ''
+		password = ''
+		specification = mail.readline()
+		for line in mail:
+			helptext = line.split()
+			if(len(helptext) < 2):
+                        	continue
+			if(helptext[0] == 'inlogname'):
+				inlogname = helptext[1]
+			if(helptext[0] == 'fromaddr'):
+				fromaddr = helptext[1]
+			if(helptext[0] == 'password'):
+				password = helptext[1]
+		msg = EmailMessage()
+		msg['From'] = fromaddr
+		msg['To'] = toaddr
+		msg['Subject'] = mailsubject
 
-        #Verander naar de leidenuniv smtp zodra we een officiele account hebben.
-        #with smtplib.SMTP('smtp.leidenuniv.nl', 25) as server:
-        with smtplib.SMTP('smtp.gmail.com', 587) as server:
-            server.starttls()
-            server.login(inlogname, password)
-            server.sendmail(fromaddr, toaddr, text)
+		text = msg.as_string()
+		text += mailbody
 
+		if(specification == 'GMAIL'):
+			with smtplib.SMTP('smtp.gmail.com', 587) as server:
+				server.starttls()
+				server.login(inlogname, password)
+				server.sendmail(fromaddr, toaddr, text)
+		if(specification == 'UMAIL'): 
+			with smtplib.SMTP('smtp.leidenuniv.nl', 25) as server:
+				server.starttls()
+				server.login(inlogname, password)
+				server.sendmail(fromaddr, toaddr, text)
 
     #Vervangt de username met de custom mail in de custommails file
     #Als die username er in staat.
