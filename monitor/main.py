@@ -4,6 +4,7 @@ import socket
 import logging
 import os
 import threading
+import stat
 
 from GPUMonitor import GPUMonitor
 from ConnectionHandler import ConnectionHandler
@@ -14,13 +15,14 @@ def main():
 
     gpu_monitor = GPUMonitor()
 
-    sock_addr = '/home/s1485873/monitor.socket'
+    sock_addr = '/tmp/monitor.socket'
     try:
         os.unlink(sock_addr)
     except:
         pass
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     sock.bind(sock_addr)
+    os.chmod(sock_addr, stat.S_IROTH | stat.S_IWOTH | stat.S_IXOTH | stat.S_IRGRP | stat.S_IWGRP | stat.S_IXGRP | stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
     sock.listen(10)
 
     logging.info('Waiting for connections')
