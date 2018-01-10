@@ -42,6 +42,7 @@ Format is as follows:
 
 [EXCEPT/INCLUDE] is written in the rule as EXCEPT or INCLUDE,
 and determines whether the rule is an exclusion-type or an inclusion-type.
+An exclusion-type rule applies the rule to everyone except the group, and an inclusion-type rule applies only to the group.
 Note that only EXCEPT is checked for, so technically INCLUDE is 'any word except EXCEPT'.
 
 Group is a list of student numbers in the 'Groups' file under a 'GROUP X' header.
