@@ -41,7 +41,7 @@ def draw_screen(screen, pad, monitor_client, pad_pos):
             pad.addstr('-')
         pad.addstr('\n\n')
         pad.addstr('User: ' + proc['fullname'] + ' ' + 'Student ID:' +proc['uid'].split(',')[0]+'\n',curses.color_pair(1))
-        pad.addstr('Process name: ' + proc['process_name'] + ' ' + 'GPU in use: ' + proc['gpu_minor_number']+'\n',curses.color_pair(2))
+        pad.addstr('Process name: ' + proc['process_name'] + ' ' + 'GPU in use: ' + proc['gpu_name']+'\n',curses.color_pair(2))
         pad.addstr('Elapsed time: '+ 'time: ' + time_epilapsed(int(float(time.time()))-float(proc['proc_birth'])) + '\n\n',curses.color_pair(3))
 
         pad.refresh(pad_pos,0,5,5,(height-5),width-5)
@@ -60,7 +60,6 @@ def main (self):
     pad_pos = 0;
     pad.refresh(0,0,5,5,height-5,width-5)
     while True:
-
         key = self.getch()
         if key == curses.KEY_DOWN:
             if pad_pos <= ((len(monitor_client.get_process_data())*7)+10)-height :
