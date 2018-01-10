@@ -23,8 +23,8 @@ def textmid(s,width):
 
 def draw_screen(screen, pad, monitor_client, pad_pos):
     height, width = screen.getmaxyx()
-    #pad.clear()
-    screen.clear()
+    pad.clear()
+    #screen.clear()
 
     # draw banner
     welcome_text = [
