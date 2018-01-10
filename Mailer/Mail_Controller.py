@@ -60,9 +60,10 @@ def main():
                 counted[proc['pid']] = 1
 
         for gpus in gpudata:
+            if not gpus['id'] in idletimes:
+                idletimes[gpus['id']] = -1 #initialize.
             if(int(gpus['gpu_utilization'].split()[0]) < 6): #If less than 5% of the GPU is in use, it's idle.
-                #if(idletimes[gpus['id']] == -1): #If not previously idle
-                if not gpus['id'] in idletimes:
+                if(idletimes[gpus['id']] == -1): #If not previously idle
                     idletimes[gpus['id']] = time.time() #Is idle from this moment on. Else do nothing.
             else:
                 idletimes[gpus['id']] = -1 #Not idle.
