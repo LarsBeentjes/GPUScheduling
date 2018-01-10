@@ -49,7 +49,7 @@ def draw_screen(screen, pad, monitor_client, pad_pos):
         screen.refresh()
 
 def main (self):
-    monitor_client = MonitorClient('/home/s1485873/monitor.socket')
+    monitor_client = MonitorClient('/tmp/monitor.socket')
 
     curses.init_pair(1,curses.COLOR_YELLOW,curses.COLOR_BLACK)
     curses.init_pair(2,curses.COLOR_GREEN,curses.COLOR_BLACK)
