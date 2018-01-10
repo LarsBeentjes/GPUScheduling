@@ -5,15 +5,12 @@ import time
 import socket
 import sys
 from collections import Counter
+
+OwnPath = sys.path[0] + '/'
+
+sys.path.insert(0, '../monitor_client')
 from MonitorClient import MonitorClient
 
-OwnPath = sys.path[0] + '/'			#Note change this to be compatible with where the program is actually invoked.
-						#Is supposed to point to Mailer directory.
-						#sys.path[0] points to where the program is initially called.
-						#So if monitor is where the program is ultimately started.
-						#Then it points to the monitor directory.
-						#And we need to add /../Mailer/
-						#Should work right though.
 def is_int(s):
     try:
         int(s)
@@ -37,7 +34,7 @@ def exception(user):
     return False
 
 def main():
-    monitor_client = MonitorClient('/tmp/monitor.socket')	#Probably also needs to be changed, but not sure how.
+    monitor_client = MonitorClient('/tmp/monitor.socket')   #Probably also needs to be changed, but not sure how.
     mailer = Mailer()
     host = socket.gethostname().split('.',1)[0]
     
@@ -45,29 +42,40 @@ def main():
     while True:
         violations = {}
         intervals = {}
-	idletimes = {}
+        idletimes = {}
         pids = set()
         data = monitor_client.get_process_data()
         gpudata = monitor_client.get_gpu_data()
-        counted = Counter(data['pid'])			#I'm reasonably sure the monitor client returns a dictionary and that this should work.
-        						#But not entirely certain. Can someone check this?
-        						#Here for efficiency.
+        '''
+        counted = Counter(data['pid'])      #I'm reasonably sure the monitor client returns a dictionary and that this should work.
+                                            #But not entirely certain. Can someone check this?
+                                            #Here for efficiency.
+        '''
+
+        counted = {}
+        for proc in data:
+            if proc['pid'] in counted:
+                counted[proc['pid']] += 1
+            else:
+                counted[proc['pid']] = 1
+
         for gpus in gpudata:
-            if(int(gpus['gpu_utilization']) < 6): #If less than 5% of the GPU is in use, it's idle.
-                if(idletimes[gpus['id']] == -1): #If not previously idle
+            if(int(gpus['gpu_utilization'].split()[0]) < 6): #If less than 5% of the GPU is in use, it's idle.
+                #if(idletimes[gpus['id']] == -1): #If not previously idle
+                if not gpus['id'] in idletimes:
                     idletimes[gpus['id']] = time.time() #Is idle from this moment on. Else do nothing.
             else:
                 idletimes[gpus['id']] = -1 #Not idle.
-        
+
         try:
             with open(OwnPath + 'Rules', 'r') as Rulesfile:
                 for line in Rulesfile:
-                    bool ruleapplies = False	#The only time this doesn't happen is if the group is invalid or it's not a valid rule.
-                    bool thisisexcept = False
+                    ruleapplies = False #The only time this doesn't happen is if the group is invalid or it's not a valid rule.
+                    thisisexcept = False
                     helptext = line.split()
                     helptext2 = helptext
-                    if(len(helptext) < 8):	
-                        continue	#Thusly, is not a valid rule.
+                    if(len(helptext) < 8):  
+                        continue    #Thusly, is not a valid rule.
                     if(is_int(helptext[2]) and is_int(helptext[3]) and is_int(helptext[4]) and is_int(helptext[5]) and is_int(helptext[7])):
                         if(helptext[0] == 'EXCEPT'):
                             thisisexcept = True
@@ -85,7 +93,7 @@ def main():
                     if(ruleapplies):
                         for proc in data:
                             if((not thisisexcept and (proc['username'] in helptext2)) or (thisisexcept and (proc['username'] not in helptext2))): #Checks if the username is in the group the rule applies to.
-                                sec_running = time.time() - float(proc['proc_birth'])								#Or not in the group in case of an EXCEPT.
+                                sec_running = time.time() - float(proc['proc_birth'])                               #Or not in the group in case of an EXCEPT.
                                 idletime = 0 #By default, not idle.
                                 if(idletimes[proc['gpu_id']] != -1): #If it's not in idletimes at all, something went very wrong somewhere.
                                     idletime = time.time() - idletimes[proc['gpu_id']]
@@ -98,9 +106,9 @@ def main():
             f = open(OwnPath + 'Rules', 'w+')
             f.close();
             f = open(OwnPath + 'Groups', 'w+')
-            f.write('EMPTYGROUP\n')				#Empty group should always be in it.
+            f.write('EMPTYGROUP\n')             #Empty group should always be in it.
             f.close();    
-            
+
         if not violations:
             print("There have been no violations")
         else:

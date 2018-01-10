@@ -3,13 +3,13 @@ import sys
 from email.message import EmailMessage
 
 
-OwnPath = sys.path[0] + '/'			#Note change this to be compatible with where the program is actually invoked.
-									#Is supposed to point to Mailer directory.
-									#sys.path[0] points to where the program is initially called.
-									#So if monitor is where the program is ultimately started.
-									#Then it points to the monitor directory.
-									#And we need to add /../Mailer/
-									
+OwnPath = sys.path[0] + '/'         #Note change this to be compatible with where the program is actually invoked.
+                                    #Is supposed to point to Mailer directory.
+                                    #sys.path[0] points to where the program is initially called.
+                                    #So if monitor is where the program is ultimately started.
+                                    #Then it points to the monitor directory.
+                                    #And we need to add /../Mailer/
+                                    
 #Als iets in de standaardmail file iets in tobereplaced is, dan
 #wordt het vervangen door diezelfde positie in replacementss.
 #Dus tobereplaced[0] wordt replacements[0]
@@ -31,39 +31,39 @@ class Mailer:
     #naar toaddr, met als subject mailsubject, en als content mailbody.
     def sendmails(self, toaddr, mailsubject, mailbody):
         with open(OwnPath + 'ownmail', 'r') as mail:
-		specification = ''
-		inlogname = ''
-		fromaddr = ''
-		password = ''
-		specification = mail.readline()
-		for line in mail:
-			helptext = line.split()
-			if(len(helptext) < 2):
-                        	continue
-			if(helptext[0] == 'inlogname'):
-				inlogname = helptext[1]
-			if(helptext[0] == 'fromaddr'):
-				fromaddr = helptext[1]
-			if(helptext[0] == 'password'):
-				password = helptext[1]
-		msg = EmailMessage()
-		msg['From'] = fromaddr
-		msg['To'] = toaddr
-		msg['Subject'] = mailsubject
+            specification = ''
+            inlogname = ''
+            fromaddr = ''
+            password = ''
+            specification = mail.readline()
+            for line in mail:
+                helptext = line.split()
+                if(len(helptext) < 2):
+                                continue
+                if(helptext[0] == 'inlogname'):
+                    inlogname = helptext[1]
+                if(helptext[0] == 'fromaddr'):
+                    fromaddr = helptext[1]
+                if(helptext[0] == 'password'):
+                    password = helptext[1]
+            msg = EmailMessage()
+            msg['From'] = fromaddr
+            msg['To'] = toaddr
+            msg['Subject'] = mailsubject
 
-		text = msg.as_string()
-		text += mailbody
+            text = msg.as_string()
+            text += mailbody
 
-		if(specification == 'GMAIL'):
-			with smtplib.SMTP('smtp.gmail.com', 587) as server:
-				server.starttls()
-				server.login(inlogname, password)
-				server.sendmail(fromaddr, toaddr, text)
-		if(specification == 'UMAIL'): 
-			with smtplib.SMTP('smtp.leidenuniv.nl', 25) as server:
-				server.starttls()
-				server.login(inlogname, password)
-				server.sendmail(fromaddr, toaddr, text)
+            if(specification == 'GMAIL'):
+                with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                    server.starttls()
+                    server.login(inlogname, password)
+                    server.sendmail(fromaddr, toaddr, text)
+            if(specification == 'UMAIL'): 
+                with smtplib.SMTP('smtp.leidenuniv.nl', 25) as server:
+                    server.starttls()
+                    server.login(inlogname, password)
+                    server.sendmail(fromaddr, toaddr, text)
 
     #Vervangt de username met de custom mail in de custommails file
     #Als die username er in staat.
@@ -108,8 +108,3 @@ class Mailer:
                 self.sendmails(toaddr, mailsubject, mailbody)
         except IOError as e:
             print(e)
-
-mailthing = Mailer()
-mailthing.sendamail(1, 's1530186', 'Lars Beentjes', 'GEFORCE THING')
-
-

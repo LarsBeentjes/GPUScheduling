@@ -28,7 +28,7 @@ def stertjes(string):
 
 
 def main():
-    SOCKET_ADDR = '/home/s1485873/monitor.socket'
+    SOCKET_ADDR = '/tmp/monitor.socket'
 
     monitor_client = MonitorClient(SOCKET_ADDR)
 

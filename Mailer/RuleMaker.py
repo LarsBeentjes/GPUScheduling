@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 
 OwnPath = sys.path[0] + '/' #This doesn't need to be changed
