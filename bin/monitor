@@ -1,0 +1,5 @@
+#!/bin/sh
+
+GPU_SCHEDULING_DIR="$HOME/GPUScheduling"
+
+python3 "$GPU_SCHEDULING_DIR/monitor/main.py" $1

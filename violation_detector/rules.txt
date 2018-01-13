@@ -1,0 +1,2 @@
+RESERVE NW_2018 neural_networks_reserved.template
+TIME EVERYONE 600 process_running_too_long.template

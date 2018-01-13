@@ -9,6 +9,7 @@ import stat
 from GPUMonitor import GPUMonitor
 from ConnectionHandler import ConnectionHandler
 
+
 def main():
     logging.basicConfig(level=logging.DEBUG)
     logging.info('GPU monitor is starting up')
@@ -42,6 +43,7 @@ def main():
     for thread in threading.enumerate():
         if thread.isDaemon():
             thread.join()
+
 
 if __name__ == '__main__':
     main()

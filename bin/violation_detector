@@ -1,0 +1,8 @@
+#!/bin/sh
+
+GPU_SCHEDULING_DIR="$HOME/GPUScheduling"
+
+PYTHONPATH="$PYTHONPATH:$GPU_SCHEDULING_DIR/monitor_client"
+export PYTHONPATH
+
+python3 "$GPU_SCHEDULING_DIR/violation_detector/main.py" $1

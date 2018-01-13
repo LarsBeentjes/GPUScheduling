@@ -1,0 +1,4 @@
+#RESERVE            GOD         god_reserved                
+PROC_TIME           EVERYONE    proc_running_too_long       120
+IDLE_TIME           NW_2018     proc_idle_too_long          60
+MAX_CLAIMED_GPUS    EVERYONE    too_many_gpus               2

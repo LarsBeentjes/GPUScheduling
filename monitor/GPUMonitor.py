@@ -14,6 +14,7 @@ def get_boot_time():
             if segments[0] == 'btime':
                 return float(segments[1])
 
+
 def get_uid_from_pid(pid):
     filename = '/proc/' + pid + '/status'
     with open(filename) as f:
@@ -23,9 +24,11 @@ def get_uid_from_pid(pid):
             if segments[0] == 'Uid:':
                 return ','.join(segments[1:])
 
+
 def get_username_fullname(uid):
     user = pwd.getpwuid(int(uid.split(',')[0]))
     return [user.pw_name, user.pw_gecos]
+
 
 def get_logged_in(username):
     users = subprocess.Popen(['/usr/bin/users'], stdout=subprocess.PIPE)
@@ -35,6 +38,7 @@ def get_logged_in(username):
         return 'true'
     else:
         return 'false'
+
 
 def get_proc_birth(pid):
     filename = '/proc/' + pid + '/stat'
@@ -50,6 +54,7 @@ def get_proc_birth(pid):
         birth /= os.sysconf(os.sysconf_names['SC_CLK_TCK'])
         return str(get_boot_time() + birth)
 
+
 def parse_process_info(process_info, gpu):
     result = {}
 
@@ -57,14 +62,13 @@ def parse_process_info(process_info, gpu):
     result['process_name'] = process_info.find('process_name').text
     result['used_memory'] = process_info.find('used_memory').text
     result['gpu_id'] = gpu.attrib['id']
-    result['gpu_minor_number'] = gpu.find('minor_number').text
-    result['gpu_name'] = gpu.find('product_name').text
     result['uid'] = get_uid_from_pid(result['pid'])
     result['username'], result['fullname'] = get_username_fullname(result['uid'])
     result['logged_in'] = get_logged_in(result['username'])
     result['proc_birth'] = get_proc_birth(result['pid'])
 
     return result
+
 
 def parse_gpu_info(gpu):
     result = {}
@@ -94,6 +98,7 @@ class GPUMonitor(threading.Thread):
 
         self.start()
 
+
     def __interruptable_wait(self):
         WAIT_TIME = 10.0  # seconds
 
@@ -103,6 +108,7 @@ class GPUMonitor(threading.Thread):
         self.running_condition.release()
 
         return result
+
 
     def __poll(self):
         result_process = []
@@ -125,11 +131,11 @@ class GPUMonitor(threading.Thread):
                         logging.warning('Unknown error while looking up state')
                         logging.warning(e, exc_info=True)
 
-
         with self.lock:
             self.process_data = result_process
             self.gpu_data = result_gpu
             self.time_data = time.time()
+
 
     def run(self):
         while self.__interruptable_wait():
@@ -139,6 +145,7 @@ class GPUMonitor(threading.Thread):
                 logging.warning("Unexpected exception happened while polling for data")
                 logging.warning(e, exc_info=True)
 
+
     def close(self):
         self.running_condition.acquire()
         self.running = False
@@ -147,17 +154,20 @@ class GPUMonitor(threading.Thread):
 
         self.join()
 
+
     def get_process_data(self):
         result = []
         with self.lock:
             result = self.process_data
         return result
 
+
     def get_gpu_data(self):
         result = []
         with self.lock:
             result = self.gpu_data
         return result
+
 
     def get_time_data(self):
         result = {}

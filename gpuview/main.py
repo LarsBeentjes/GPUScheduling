@@ -5,7 +5,6 @@ import sys
 import time
 import socket
 
-sys.path.insert(0, '../monitor_client')
 from MonitorClient import MonitorClient
 
 SOCKET_ADDR = '/tmp/monitor.socket'

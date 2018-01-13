@@ -1,4 +1,9 @@
 *.swp
-tools/cuda_stress/stress
+*.pyc
 monitor/__pycache__
 monitor_client/__pycache__
+gpuview/__pycache__
+mailer/__pycache__
+violation_detector/__pycache__
+violation_detector_env/mailcooldown.json
+violation_detector_env/mailer.log

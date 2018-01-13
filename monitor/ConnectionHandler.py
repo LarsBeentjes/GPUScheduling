@@ -59,6 +59,7 @@ class ConnectionHandler(threading.Thread):
         json_str = json.dumps(pdata)
         self.__send_message(json_str)
 
+
     def run(self):
         logging.info('New connection opened id: ' + str(self.ident))
 
