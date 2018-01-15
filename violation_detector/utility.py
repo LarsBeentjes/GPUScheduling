@@ -7,4 +7,4 @@ def is_student(username):
 
 
 def get_timestring():
-    return time.strftime('[%d-%m-%Y %H:%M:%S]', time.localtime())
+    return time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())

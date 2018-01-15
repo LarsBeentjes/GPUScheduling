@@ -1,5 +1,6 @@
 import time
 import json
+import subprocess
 
 from config import get_config
 from logger import get_logger
@@ -28,12 +29,16 @@ class Mailer:
     def __send_mail(self, username, fullname, template):
         to_addr = generate_email_address(username, fullname)
         mail_content = self.m_templates.generate(template, fullname, to_addr)
-        # TODO implement using send mail
-        print(80 * '*')
-        print('Sending mail to {}'.format(to_addr))
-        print(80 * '*')
-        print(mail_content)
-        print(80 * '*')
+
+        # TODO replace second argument with to_addr
+        command = ['/usr/sbin/sendmail', 's1485873@umail.leidenuniv.nl']
+        sendmail_proc = subprocess.Popen(command, stdin=subprocess.PIPE,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        bytes_written = sendmail_proc.stdin.write(mail_content.encode('UTF-8'))
+        if bytes_written != len(mail_content):
+            raise Exception('Partial write')
+        sendmail_proc.stdin.close()
+        sendmail_proc.wait()
 
 
     def __load_cooldown(self):

@@ -31,7 +31,7 @@ class Logger:
 
     def msg(self, msg):
         timestr = get_timestring()
-        complete_msg = '{} {}\n'.format(timestr, msg)
+        complete_msg = '[{}] {}\n'.format(timestr, msg)
         if self.m_to_stdout:
             print(complete_msg, end='')
         self.m_logfile.write(complete_msg)

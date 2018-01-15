@@ -39,7 +39,7 @@ class Templates:
         text = text.replace('[TO_ADDR]', to_addr)
         text = text.replace('[FULLNAME]', fullname)
         text = text.replace('[SERVER]', socket.gethostname())
-        tex = text.replace('[TIME]', get_timestring())
+        text = text.replace('[TIME]', get_timestring())
         return text
 
 
