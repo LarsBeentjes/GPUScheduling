@@ -105,7 +105,8 @@ class Rules:
         self.__check_groups(groups, lineno)
         self.__check_template(template, lineno)
 
-        self.m_rules.append(RuleCalimedGpus(lineno, groups, template, proc_time, self.m_groups))
+        self.m_rules.append(RuleCalimedGpus(lineno, groups, template,
+            proc_time, self.m_groups))
 
 
     def __load_rules(self):
