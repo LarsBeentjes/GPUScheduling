@@ -40,6 +40,10 @@ class Mailer:
         sendmail_proc.stdin.close()
         sendmail_proc.wait()
 
+        # Attempty to deliver mail
+        subprocess.Popen(['/usr/sbin/sendmail', '-q',],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).wait()
+
 
     def __load_cooldown(self):
         try:
