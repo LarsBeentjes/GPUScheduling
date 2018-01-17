@@ -1,6 +1,5 @@
 SE_TEAM: s14858573,    s1568159;
 NW_2018: s1485873 ;
-GOD: steinbvan;
 LARGE:
     s1485873,
     s1568159,

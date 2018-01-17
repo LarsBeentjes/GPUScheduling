@@ -14,8 +14,7 @@ def print_help():
 --help, -h      Print this message
 
 To kill one of your processes use 'kill [pid]' or if this does
-not work 'kill -9 [pid]'. Unfortunately you wont be able to kill
-Bas van Stein's processes, unless of course your are Bas himself (or god).
+not work 'kill -9 [pid]'.
 
 If you want to keep the view board updating automatically try:
 'watch -n 1 gpuview'.

@@ -30,8 +30,7 @@ class Mailer:
         to_addr = generate_email_address(username, fullname)
         mail_content = self.m_templates.generate(template, fullname, to_addr)
 
-        # TODO replace second argument with to_addr
-        command = ['/usr/sbin/sendmail', 's1485873@umail.leidenuniv.nl']
+        command = ['/usr/sbin/sendmail', to_addr]
         sendmail_proc = subprocess.Popen(command, stdin=subprocess.PIPE,
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         bytes_written = sendmail_proc.stdin.write(mail_content.encode('UTF-8'))
