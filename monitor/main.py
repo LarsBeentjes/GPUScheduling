@@ -25,8 +25,7 @@ def main():
         sock.listen(10)
     except Exception as e:
         logging.error('Failed to setup socket: {}'.format(str(e)))
-        logging.info('Try removing "{}" if no other instance of the ' +
-                'monitor is running'.format(SOCKET_ADDR))
+        logging.info('Try removing "{}" if no other instance of the monitor is running'.format(SOCKET_ADDR))
         return
 
     gpu_monitor = GPUMonitor()
