@@ -6,9 +6,14 @@ from groups import Groups
 from rules import Rules
 from mailer import Mailer
 from MonitorClient import MonitorClient
+from config import get_config
+from logger import get_logger
 
 class Application:
     def __init__(self):
+        if get_config().get('mail_dry_run'):
+            get_logger().msg('Dryrun is enabled, no mails will be sent')
+
         templates = Templates()
         self.m_groups = Groups()
         mailer = Mailer(templates)

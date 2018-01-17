@@ -1,3 +1,4 @@
 {
-    "mail_dry_run": false
+    "mail_dry_run": false,
+    "mail_from_addr": "s1485873@umail.leidenuniv.nl"
 }

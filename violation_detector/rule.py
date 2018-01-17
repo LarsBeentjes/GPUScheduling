@@ -40,6 +40,10 @@ class RuleProcRuntime(RuleBase):
         violators = set()
         for proc in proc_data:
             user = proc['username']
+
+            if not self.affected_user(user):
+                continue
+
             proc_age = time.time() - float(proc['proc_birth'])
 
             if self.affected_user(user) and proc_age > self.m_max_runtime:
@@ -101,6 +105,10 @@ class RuleCalimedGpus(RuleBase):
         users = {}
         for proc in proc_data:
             user = proc['username']
+
+            if not self.affected_user(user):
+                continue
+
             if user in users:
                 users[user] += 1
             else:
