@@ -38,7 +38,7 @@
     on the GPU servers at LIACS. This goal is achieved in two ways: 1) 
     It provides a quick and clean view of the running jobs on the GPU's
     and 2) It allows teachers to automatically notify users of running
-    processes according to ajustable rule sets.\\
+    processes according to adjustable rule sets.\\
 
     The package consists of three separate parts.\\
     The GPUMonitor gathers the data of the GPU hardware and the processes 
@@ -47,7 +47,7 @@
     meant to be running at all times on each GPU server.\\
 
     The GPUView provides a human readable interface in the shell for a 
-    slection of the data gathered by the GPUMonitor. Any user on the server
+    selection of the data gathered by the GPUMonitor. Any user on the server
     should be able to run the GPUView.\\
     
     The Violation Detector allows teachers to set notification rules for
@@ -58,7 +58,7 @@
 
 \section{How to use?}
 \subsection{Setup}
-The package source files should be placed in a location accessable 
+The package source files should be placed in a location accessible 
 by one of the teachers in order to use the GPUMonitor and the 
 Violation Detector. Preferably the GPUView files should be executable
 by students from a shared folder.
@@ -72,7 +72,7 @@ will result in an error. Starting the monitor can be done by running the
 /bin/monitor shell script.
 
 \subsubsection{Violation Detector}
-The Violation Detector is preferably run by one user allthough it is 
+The Violation Detector is preferably run by one user, although it is 
 possible to run multiple instances. It can be run from the 
 /violation\_detector\_env/ folder in order to access all required files.
 
@@ -83,7 +83,7 @@ to configure all the rules properly see 'Teacher use case'.
         The student interacts with the system in two separate ways. In the
         first place the student can request the GPU utilization information.
         This is done by simply calling the /bin/gpuview shell script.
-        The second form of interaction is simply recieving e-mail notifications
+        The second form of interaction is simply receiving e-mail notifications
         about rule violations and does not require more detailed instructions. 
 
 \subsection{Teacher use case}
@@ -94,7 +94,7 @@ this user.
 
 RULES, GROUPS and mail TEMPLATES are stored in files. Understanding
 the syntax of these files enables a teacher to do everything the
-package is intendet to do.
+package is intended to do.
 
 RULES
 text file, default location: /violation\_detector\_env/rules.txt
@@ -121,7 +121,7 @@ in [parameters].
 There are roughly two kinds of groups. Default groups and 
 custom groups. 
 
-Default groups: (mosty self explanatory)\\
+Default groups: (mostly self explanatory)\\
 NO\_ONE\\
 EVERYONE\\
 STUDENTS
@@ -138,7 +138,7 @@ Multiple groups can be separated by commas.
 
 \begin{verbatim}<mail_template>\end{verbatim}
 Should refer to a .template file in the mailtemplates folder.
-The .template extention can be omitted. For template syntax
+The .template extension can be omitted. For template syntax
 see TEMPLATES.
 
 
@@ -147,7 +147,7 @@ Whitespaces are ignored.
 Example:
 \begin{verbatim}
         # notify everyone not in PRACTICAL1 when starting jobs with 
-        # the message template all_in one.
+        # the message template all_in_one.
         RESERVE             PRACTICAL1  all_in_one
         # notify every user running a job for longer than two minutes
         PROC_TIME           EVERYONE    all_in_one                  120
@@ -165,7 +165,7 @@ syntax:
 \begin{verbatim}
         <groupname>: <users_comma_separated>;
 \end{verbatim}
-Linebreaks and whitespaces are ignored, therefore usersnames can 
+Linebreaks and whitespaces are ignored, therefore usernames can 
 be either on separate lines or on the same lines. Groups are
 closed by a semicolon.
         
@@ -198,8 +198,8 @@ default location: /violation\_detector\_env/mailtemplates
 keywords between square brackets are replaced by the mailer
 in order to fit the circumstance. The following keywords can be used: 
 [FROM\_ADDR]     - sender 
-[TO\_ADDR]       - reciever/violator 
-[FULLNAME]      - fullname of violator 
+[TO\_ADDR]       - receiver/violator 
+[FULLNAME]      - full name of violator 
 [SERVER]        - server name 
 [TIME]          - Current time (moment of sending e-mail) 
 
@@ -212,7 +212,7 @@ Example:
         Dear [FULLNAME],
 
         At [TIME] you violated a rule by running a job on [SERVER]. 
-        This mail was ment for: [TO_ADDR]
+        This mail was meant for: [TO_ADDR]
 
         Best,
         TA
