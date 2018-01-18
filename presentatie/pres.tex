@@ -1,0 +1,186 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+
+\title{Process van het maken van een automatische GPU opzichter}
+\author{Lars Beentjes \\Luc de Jonckheere \\Gilles Ottervanger \\Rob Reijtenbach \\Kean Tettelaar \\Elgar van der Zande}
+\date{19 Januari 2017}
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+\begin{frame}
+\frametitle{Teamwork}
+    \begin{itemize}
+        \item Regelmatige meetings
+        \begin{itemize}
+            \item Deadlines stellen
+            \item Gemaakt werk evalueren
+            \item Idee\"en delen
+        \end{itemize}
+        \vspace{+2mm}
+
+        \item Whatsapp groep voor snel contact
+        \begin{itemize}
+            \item Vragen over elkaars code
+            \item Vragen over design keuzes
+            \item Plannen van meetings
+        \end{itemize}
+        \vspace{+2mm}
+
+        \item GitHub voor makkelijke samenwerking
+        \begin{itemize}
+            \item Overzichtelijk code uitwisselen
+            \item Issues voor het melden van problemen
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Contact met opdrachtgever}
+    \begin{itemize}
+        \item Eerste meeting
+        \begin{itemize}
+            \item Iedereen aanwezig
+            \item Technische requirements bespreken
+            \item Interactie vastleggen (input/output)
+            \item Deadlines bespreken
+        \end{itemize}
+        \vspace{+2mm}
+
+        \item Latere meetings
+        \begin{itemize}
+            \item Kleinere groep mensen
+            \item Product in huidige staat laten zien
+            \item Bespreken wat anders moet/beter kan
+            \item Eerder gemaakte requirements bijstellen
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Projectmatig werken}
+    \begin{itemize}
+        \item Combinatie van waterfall en agile
+        % In het begin was waterfall handig, maar later werd agile handiger
+        
+        \item Waterfall:
+        \begin{itemize}
+            \item Requirements vanaf het begin duidelijk
+            \item Alle feutures werden tegelijk gemaakt (losse modules)
+            \item Losse stappen in successie (begin)
+            \begin{itemize}
+                \item Eerst duidelijk requirements bespreken
+                \item Met z'n alleen over een goed design gebrainstormd
+                \item Design implementeren
+                \item Afwijking...
+            \end{itemize}
+        \end{itemize}
+        \vspace{+1mm}
+
+        \item Agile:
+        \begin{itemize}
+            \item Losse teams (pair programming)
+            \item Elke interview werkende software
+            \item Geen groot documentatie document, maar duidelijke code met benodigde comments
+            \item Nieuw interview na grote verandering
+            \item Handige/efficiente methode door grootte van het project  % kleine projecten zijn erg wendbaar
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Requirement engineering}
+    \begin{itemize}
+        \item Requirements eenduidig; technieken niet erg nodig
+        \vspace{+2mm}
+
+        \item Functionalistische benadering  % objective + order; The analyst is the expert who empirically seeks the truth
+        \vspace{+2mm}
+
+        \item \textbf{Elicitatie}: interview met opdrachtgever en brainstorming
+        \item \textbf{Specificatie}: requirements uitgewerkt en opgeschreven
+        \item \textbf{Validatie}: genoteerde requirements naar opdrachtgever gemaild
+        \item \textbf{Onderhandelingen}: e-mails met opdrachtgever en interviews
+        \vspace{+2mm}
+
+        \item Weinig sprake van MoSCoW  % we hadden 3 belangrijke modules en wat kleine dingetjes die nog zouden kunnen als we klaar waren
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Design}
+    \begin{itemize}
+        \item Model-View-Controller achtig design patroon  % Niet helemaal, want 3 losse programmas verbonden met socket. Geen directe referencies naar elkaar
+        \begin{itemize}
+            \item Model: GPUMonitor  % data handling en storage
+            \item View: GPUViewer  % Presentatie van de assets
+            \item Controller: Violation Detector  % Ontvangt input van model en update info voor viewer
+        \end{itemize}
+        \vspace{+2mm}
+
+        \item Tegelijk ontwikkelen goed mogelijk door design keuze
+        \item Onderdeel kan makkelijk vervangen worden als het niet voldoet
+        \vspace{+2mm}
+
+        \item Geen modeling nodig gehad door kleine codebase en duidelijke code(structuren)
+        \vspace{+2mm}
+
+        \item Code achteraf refactored om ``bad smells'' te minimaliseren
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Kwaliteit}
+    \begin{itemize}
+        \item Opdrachtgever/ontwikkelings manager:
+        \begin{itemize}
+            \item Gevraagd probleem opgelost
+            \item Code makkelijk aan te passen/goed te onderhouden  % costing less to develop and maintain
+        \end{itemize}
+        \vspace{+1mm}
+
+        \item Gebruiker:
+        \begin{itemize}
+            \item Makkelijk te gebruiken  % easy to learn
+            \item Duidelijke handleiding meegegeven  % easy to learn
+            \item Snel automatiseren van normaal handmatige taken  % helps get work done; efficient to use
+        \end{itemize}
+        \vspace{+1mm}
+
+        \item Ontwikkelaar:
+        \begin{itemize}
+            \item Makkelijk design  % easy to design
+            \item Logisch design  % easy to maintain
+            \item Losse onderdelen, dus makkelijk om delen te hergebruiken  % easy to reuse its parts
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Testen}
+    \begin{itemize}
+        \item Verificatie:
+        \begin{itemize}
+            \item Lastig te automatiseren in dit project
+            \item Weinig mogelijkheden voor input (per module); makkelijk handmatig te testen
+            \item Modulaire opbouw zorgt voor consistentie in werking
+        \end{itemize}
+        \vspace{+2mm}
+
+        \item Validatie:
+        \begin{itemize}
+            \item Idle script: kan een process op bepaalde GPUs idle laten draaien
+            \item Stress test: start process die veel werk uitvoeren
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\end{document}
